@@ -1,41 +1,52 @@
-## Challenge 8 del curso de Desarrollo Móvil de Coderhouse
-
+Challenge 9 del curso de Desarrollo Móvil de Coderhouse
 Para poder resolver este challenge seguir los siguientes pasos
 
-1. Hacer un **fork** este repositorio
-1. Una vez hecho el **fork**, hacer un clon copiando la URL (en el botón verde) y corriendo `git clone <URL>` en la consola
-1. Una vez clonado, moverse dentro de la carpeta del proyecto y correr `npm install` (o `yarn`) para instalar las dependencias necesarias
-1. Hacer un **nuevo branch** con tu nombre y apellido para identificarte (ej. `git checkout -b gonzalo-aguirre`)
-1. Correr el proyecto usando `expo start`
-1. Resolver el enunciado, **haciendo un nuevo commit al resolver cada parte**
-1. Hacer un **push** del nuevo branch
-1. Desde **github.com** crear un nuevo **pull request** desde ese branch hacia master
+Hacer un fork este repositorio
+Una vez hecho el fork, hacer un clon copiando la URL (en el botón verde) y corriendo git clone <URL> en la consola
+Una vez clonado, moverse dentro de la carpeta del proyecto y correr npm install (o yarn) para instalar las dependencias necesarias
+Hacer un nuevo branch con tu nombre y apellido para identificarte (ej. git checkout -b gonzalo-aguirre)
+Correr el proyecto usando expo start
+Resolver el enunciado, haciendo un nuevo commit al resolver cada parte
+Hacer un push del nuevo branch
+Desde github.com crear un nuevo pull request desde ese branch hacia master
+Enunciado
+Configuración Previa
+Cambiar el SPOTIFY_CLIENT_ID con su clientId
+Agregar la nueva redirectUrl en la configuración de Spotify
+Debería ser https://auth.expo.io/@<TU_USERNAME>/desarrollo-movil-challenge-9, pero podés verificarlo haciendo un console.warn('Mi url', redirectUrl) debajo de la llamada a AuthSession.getRedirectUrl() en el archivo spotify-api-client.js
 
-### Enunciado
+Creando un proyecto en Firebase
+Registarse en Firebase
+Ir a la consola y crear un nuevo proyecto (elegir nombre, id y los permisos para darle a Google)
+Seleccionar la opción web para integrar. Eso debería mostrar un snippet de código que vamos a usar más adelante.
+Integrando Firebase
+Instalar el SDK de Firebase como dependencia
+yarn add firebase o npm install firebase
 
-### Configuración Previa
+Crear un archivo llamado firebase.js y dentro del mismo copiar el snippet que nos da Firebase con la inicialización del mismo, con una diferencia: debemos importar firebase como dependencia. Debería quedarte algo así
+import firebase from 'firebase'
 
-1. Cambiar el `SPOTIFY_CLIENT_ID` con su `clientId`
-1. Agregar la nueva `redirectUrl` en la configuración de Spotify 
-> Debería ser `https://auth.expo.io/@<TU_USERNAME>/desarrollo-movil-challenge-8`, pero podés verificarlo haciendo un `console.warn('Mi url', redirectUrl)` debajo de la llamada a `AuthSession.getRedirectUrl()` en el archivo `spotify-api-client.js`
+const config = {
+  apiKey: '...',
+  authDomain: '...',
+  databaseURL: '...',
+  projectId: '...',
+  storageBucket: '...',
+  messagingSenderId: '...',
+}
 
-#### Integrando Redux
-1. Instalar `redux` y `react-redux` 
-    > `yarn add redux react-redux` o `npm install redux react-redux`
-1. Crear un store (usando `createStore` de `redux`) e integrar ese store en la `App` (usando `Provider` de `react-redux`). Fijate que ya hay una carpeta de `reducers` con un `index.js` que podés usar como `rootReducer`.
-    > https://redux.js.org/recipes/configuringyourstore#creating-the-store
-1. Conectar el `HomeScreen` usando `connect` de `react-redux` para poder acceder al estado
-    > https://redux.js.org/basics/usagewithreact#containers-filterlink-js es un ejemplo
+firebase.initializeApp(config)
+Integrando Firestore
+Antes de integrar Firestore necesitamos crear una instancia del servicio desde el sitio de Firebase.
 
+Ir a la sección Database en la consola de Firebase
+Crear una base de datos usando Firestore (no la Realtime Database)
+Elegir modo test (o pruebas) para poder escribir y leer sin estar autenticado
+Una vez dado de alta el servicio, integrar Firestore en nuestra aplicación
 
-#### Marcando un artista como favorito
-
-1. Crear una nueva acción para marcar un artista como favorito, que sea de tipo `SET_ARTIST_AS_FAVORITE` y reciba el `artistId` en el `payload` de la acción
-1. Crear un reducer que tome esa acción y marque como favorito el artista con ese id
-    > TIP: podés modificar el objeto de artista que ya tenés en el store ;) 
-1. Emitir esa acción al tocar el botón de favorito de cada artista
-
-#### Bonus
-
-1. Preguntar a el/la profe _¿Y por qué no guardo esa información directamente en el `state` del componente?_
-1. Pedir que haga un ejemplo más real mostrando otro tab que comparta información con el ya existente
+Integrar Firestore importandolo import 'firebase/firestore' en nuestro archivo firebase.js
+Seguir el Get Started desde el paso Initialize Cloud Firestore (https://firebase.google.com/docs/firestore/quickstart?authuser=0)
+Probar de insertar data y corroborar que haya funcionado en el dashboard
+Peristiendo datos en Firestore
+Definir una estructura de cómo guardar los artistas favoritos
+Una vez definida esa estructura, persistir los favoritos al tocar el botón de favorito
